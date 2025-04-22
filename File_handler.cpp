@@ -22,11 +22,25 @@ File_handler::File_handler(const fs::path& path) : Handler(path)
 
 void File_handler::Process(std::vector<File_Info>& files_info) 
 {
-	
+	try
+	{
 	File_Info file_info;
+
 	file_info.name = m_file_path.filename().string();
 	file_info.size = fs::file_size(m_file_path);
 	file_info.permission = fs::status(m_file_path).permissions();
+	file_info.archive = GetFileAttributesW(m_file_path.c_str());
+	std::filesystem::file_time_type last_modification_time = std::filesystem::last_write_time(m_file_path);
 
 	files_info.push_back(file_info);
+	}
+	catch (const std::exception& expected_result)
+	{
+		std::cerr << expected_result.what() << std::endl;
+	}
+	catch (...)
+	{
+		std::cerr << "An unknown error occurred. Please try again." << std::endl;
+	}
+
 }

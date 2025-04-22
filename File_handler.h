@@ -2,7 +2,6 @@
 #include "Handler.h"
 #include <unordered_map>
 #include <windows.h>
-#include <chrono>
 #include <fstream>
 
 
@@ -12,6 +11,7 @@ struct File_Info
     std::string name;
     std::size_t size;
     std::filesystem::perms permission;
+    DWORD archive;
 };
 
 

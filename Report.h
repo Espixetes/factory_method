@@ -6,7 +6,7 @@ class Report
 {
 public:
 	Report() = default;
-	virtual void Print(const std::vector<File_Info>& files, const fs::path& filename) const = 0;
+	virtual void Print(const std::vector<File_Info>& files,  fs::path filename) const = 0;
 	virtual ~Report() = default;
 };
 

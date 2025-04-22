@@ -2,15 +2,32 @@
 
 
 
-void Report_CSV::Print(const std::vector<File_Info>& files, const fs::path& filename) const {
+void Report_CSV::Print(const std::vector<File_Info>& files, fs::path filename) const {
+    filename = (filename / "report.csv");
+    std::ofstream file_stream(filename);
+    try {
+    if (!file_stream) {
+        throw std::runtime_error("Could not open file ");
+    }
 
-     std::ofstream ofs(filename);
-     ofs << "Name,Size,Modified\n";
-     for (const auto& file : files) 
-     {
-         ofs << "\"" << file.name << "\",";
-         ofs << file.size << ",\"";
-         ofs << static_cast<unsigned>(file.permission) << "\"\n";
-     }
-     ofs.close();
+    file_stream << "Name,Size,Permission,Archieve:\n";
+
+    for (const auto& file : files) {
+       
+
+        file_stream << "\"" << file.name << "\","
+            << file.size << ","
+            << static_cast<unsigned>(file.permission) << ","
+            << file.archive << "\n";
+    }
+    }
+    catch (const std::exception& expected_result)
+    {
+        std::cerr << expected_result.what() << std::endl;
+    }
+    catch (...)
+    {
+        std::cerr << "An unknown error occurred. Please try again." << std::endl;
+    }
+
 }
